@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using disParity;
+﻿using disParity;
+using System;
 
-namespace disParityUI
-{
-
-  internal class Environment : IEnvironment
-  {
-
-    public void LogCrash(Exception e)
-    {
-      App.LogCrash(e);
-    }
-
-  }
-
+namespace disParityUI {
+	internal class Environment : IEnvironment {
+		public void LogCrash(Exception e) {
+			App.LogCrash(e);
+		}
+	}
 }
