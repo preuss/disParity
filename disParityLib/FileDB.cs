@@ -227,6 +227,7 @@ namespace disParity {
 
 		/// <summary>
 		/// Ensures there is enough room in the existing .dat file to add the given record
+		/// Backs up and then extendes the existing filesX.dat by the amount necessary to store the given new file record
 		/// </summary>
 		internal bool Extend(FileRecord newRecord) {
 			using (MemoryStream ms = newRecord.Encode()) {
@@ -241,11 +242,17 @@ namespace disParity {
 				}
 				try {
 					// write the record to the end, then go back and mark it as deleted
+					// We are adding more space for future record, by adding record and marking it as deleted
 					using (FileStream f = new FileStream(FileName, FileMode.Append, FileAccess.Write)) {
 						long pos = f.Position;
 						ms.WriteTo(f);
 						f.Position = pos;
 						FileRecord.WriteUInt16(f, MakeDeleteMask(newRecord));
+						
+						// Always remember to add position to where the new deleted record was added.
+						// Because this is added as deleted and we remember where it's deleted, 
+						// we are using this record to know where to insert a new record if room.
+						newRecord.Position = (UInt32) pos;
 					}
 					deletes.Add(newRecord);
 				} catch (Exception e) {
