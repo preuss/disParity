@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using disParityLib.Infrastructure.Logging.LoggingAbstractBase;
+using Microsoft.Win32;
+using Serilog.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +12,8 @@ using System.Threading.Tasks;
 
 namespace disParity {
 	public class ParitySet : ProgressReporter {
+		private static ILogger Logger = LoggerConstructor.newLogger(typeof(ParitySet));
+
 		private List<DataDrive> drives;
 		private Parity parity;
 		private byte[] tempBuf = new byte[Parity.BLOCK_SIZE];
@@ -177,6 +181,7 @@ namespace disParity {
 					}
 					d.UpdateStatus();
 				}
+
 				if (deleteCount > 0) {
 					TimeSpan elapsed = DateTime.Now - start;
 					LogFile.Log("{0} file{1} ({2}) removed in {3:F2} sec", deleteCount, deleteCount == 1 ? "" : "s", Utils.SmartSize(deleteSize), elapsed.TotalSeconds);

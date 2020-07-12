@@ -20,17 +20,18 @@ namespace disParityUI {
 			WindowUtils.RemoveCloseButton(this);
 		}
 
-		public void HandleOKClick(object Sender, RoutedEventArgs args) {
+		public void HandleOkClick(object Sender, RoutedEventArgs args) {
 			DialogResult = true;
+		}
+
+		public void HandleCancelClick(object Sender, RoutedEventArgs args) {
+			DialogResult = false;
 		}
 
 		public void HandleSupportClick(object Sender, RoutedEventArgs args) {
 			Process.Start(new ProcessStartInfo(viewModel.ForumURL));
 			args.Handled = true;
 		}
-
-
 	}
-
 }
 
